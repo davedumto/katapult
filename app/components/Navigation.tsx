@@ -41,11 +41,11 @@ export function Navigation() {
       <nav className={cn('fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4 md:px-12', scrolled ? 'bg-harmattan/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent')}>
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
-          <a href="#" className="flex items-center z-50 relative">
-            <svg aria-hidden="true" className="katapult-logo w-32 h-auto" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 178 79" style={{enableBackground:'new 0 0 178 79'}} xmlSpace="preserve">
+          <a href="#" className="flex items-center gap-2 z-50 relative">
+            <svg aria-hidden="true" className="katapult-logo w-32 h-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 79" style={{fill: 'currentColor'}}>
               <path className="fill-terracotta" d="M10.3,57.8C4.6,57.8,0,62.4,0,68.1c0,5.7,4.6,10.3,10.3,10.3c5.7,0,10.3-4.6,10.3-10.3
-                C20.6,62.4,16,57.8,10.3,57.8z M10.3,74.9c-3.8,0-6.8-3.1-6.8-6.9c0-3.8,3.1-6.9,6.8-6.9c3.8,0,6.8,3.1,6.8,6.9
-                C17.1,71.9,14.1,74.9,10.3,74.9z"></path>
+                C20.6,62.4,16,57.8,10.3,57.8z M10.3,75c-3.8,0-6.8-3.1-6.8-6.9c0-3.8,3.1-6.9,6.8-6.9c3.8,0,6.8,3.1,6.8,6.9
+                C17.1,71.9,14.1,75,10.3,75z"></path>
               <path className="fill-terracotta" d="M10.3,20.6c5.7,0,10.3-4.6,10.3-10.3C20.6,4.6,16,0,10.3,0C4.6,0,0,4.6,0,10.3C0,16,4.6,20.6,10.3,20.6z
                  M10.3,3.5c3.8,0,6.8,3.1,6.8,6.9c0,3.8-3.1,6.9-6.8,6.9c-3.8,0-6.8-3.1-6.8-6.9C3.4,6.5,6.5,3.5,10.3,3.5z"></path>
               <path className="fill-terracotta" d="M37.9,29c-5.7,0-10.3,4.6-10.3,10.3c0,5.7,4.6,10.3,10.3,10.3c5.7,0,10.3-4.6,10.3-10.3
