@@ -169,7 +169,7 @@ export function Hero() {
                 <h1 
                   className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black leading-none tracking-tighter"
                   style={{
-                    backgroundImage: 'url("/african-climate-2.jpg")',
+                    backgroundImage: `url("${currentImage}")`,
                     backgroundAttachment: 'fixed',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
