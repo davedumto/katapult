@@ -13,7 +13,7 @@ const team = [{
 }, {
   name: 'Fabrice Boullé',
   role: 'Portfolio Advisor',
-  image: '/Fabrice Boullé.png',
+  image: '/fabrice-boulle.png',
   email: 'fabrice@katapult.vc',
   linkedin: 'https://linkedin.com/in/fabrice-boulle',
   bio: 'Strategic advisor helping portfolio companies scale across African markets with proven track record.'
@@ -109,7 +109,7 @@ export function Team() {
               <p className="text-baobab/60 font-medium mt-1">{member.role}</p>
             </motion.div>
 
-            {/* Dropdown Card */}
+            {}
             <AnimatePresence>
               {selectedMember === idx && (
                 <motion.div
@@ -120,7 +120,7 @@ export function Team() {
                   className="mt-4 bg-white border-2 border-terracotta/20 rounded-2xl shadow-xl overflow-hidden relative"
                 >
                   <div className="p-6">
-                    {/* Close Button */}
+                    {}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -131,7 +131,7 @@ export function Team() {
                       <X className="w-4 h-4" />
                     </button>
 
-                    {/* Contact Links */}
+                    {}
                     <div className="flex flex-col gap-3 mb-4 pr-8">
                       <a
                         href={`mailto:${member.email}`}
@@ -153,7 +153,7 @@ export function Team() {
                       </a>
                     </div>
 
-                    {/* Bio */}
+                    {}
                     <div className="border-t border-baobab/10 pt-4">
                       <p className="text-baobab/70 text-sm leading-relaxed">
                         {member.bio}

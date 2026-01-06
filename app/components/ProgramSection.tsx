@@ -10,7 +10,7 @@ export function ProgramSection() {
   });
   return <section className="py-24 px-6 md:px-12 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center" ref={ref}>
-        {/* Image Side */}
+        {}
         <motion.div initial={{
         opacity: 0,
         x: -50
@@ -31,7 +31,7 @@ export function ProgramSection() {
           </div>
         </motion.div>
 
-        {/* Content Side */}
+        {}
         <div className="space-y-8">
           <motion.h2 initial={{
           opacity: 0,

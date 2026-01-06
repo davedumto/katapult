@@ -81,13 +81,12 @@ export function Portfolio() {
     }
   };
 
-  // Show 6 companies initially, all when expanded
   const displayedCompanies = showAll ? companies : companies.slice(0, 6);
 
   return (
     <section id="portfolio" className="py-32 bg-harmattan relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {/* Header */}
+        {}
         <div className="text-center mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -118,7 +117,7 @@ export function Portfolio() {
           </motion.p>
         </div>
 
-        {/* Grid */}
+        {}
         <motion.div
           ref={ref}
           variants={container}
@@ -133,11 +132,11 @@ export function Portfolio() {
               whileHover={{ y: -8 }}
               className="group bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-baobab/5 relative overflow-hidden"
             >
-              {/* Top Border Reveal */}
+              {}
               <div className="absolute top-0 left-0 w-full h-1 bg-terracotta transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
               <div className="h-12 mb-6 flex items-center">
-                {/* Company Logo */}
+                {}
                 <div className="h-full relative w-24">
                   <Image 
                     src={`/${idx + 1}${idx === 14 ? '.png' : '.jpg'}`} 
@@ -165,7 +164,7 @@ export function Portfolio() {
           ))}
         </motion.div>
 
-        {/* See More / See Less Button */}
+        {}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}

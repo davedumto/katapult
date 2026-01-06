@@ -16,7 +16,7 @@ export function ClimateCompass() {
   });
   const imageY = useTransform(scrollYProgress, [0, 1], [0, -50]);
   return <section className="relative overflow-hidden bg-gradient-to-b from-harmattan to-white py-32" ref={ref}>
-      {/* Decorative Elements */}
+      {}
       <div className="absolute top-20 right-[10%] w-64 h-64 rounded-full border border-terracotta/10 opacity-50" />
       <div className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full border border-sahel/10 opacity-30" />
 
@@ -24,12 +24,12 @@ export function ClimateCompass() {
         <motion.div style={{
         y: imageY
       }} className="relative w-full rounded-[32px] overflow-hidden shadow-2xl">
-          {/* Image Background */}
+          {}
           <div className="relative w-full aspect-[16/9] md:aspect-[21/9]">
             <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80" alt="Baobab tree landscape" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-            {/* Floating Badge */}
+            {}
             <motion.div initial={{
             opacity: 0,
             scale: 0.8
@@ -49,7 +49,7 @@ export function ClimateCompass() {
             </motion.div>
           </div>
 
-          {/* Content Card - Inside Container */}
+          {}
           <motion.div initial={{
           opacity: 0,
           y: 30
@@ -63,7 +63,7 @@ export function ClimateCompass() {
           duration: 0.8,
           delay: 0.3
         }} className="relative bg-white p-8 md:p-12 m-8 md:m-12 rounded-[24px] shadow-xl">
-            {/* Decorative Corner Element */}
+            {}
             <div className="absolute -top-3 -left-3 w-20 h-20 border-l-4 border-t-4 border-terracotta rounded-tl-3xl opacity-30" />
 
             <div className="max-w-3xl">

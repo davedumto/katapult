@@ -5,7 +5,6 @@ import DotGrid from './DotGrid';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register GSAP plugin
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -19,7 +18,6 @@ export function VisionStatement() {
     margin: '-10% 0px'
   });
 
-  // GSAP Animation for text
   useEffect(() => {
     if (!textRef.current) return;
 
@@ -58,7 +56,7 @@ export function VisionStatement() {
 
   return <section ref={sectionRef} className="relative py-32 md:py-40 px-6 overflow-hidden bg-harmattan">
       
-      {/* Interactive Dot Grid Background */}
+      {}
       <div className="absolute inset-0 pointer-events-auto">
         <DotGrid
           dotSize={6}

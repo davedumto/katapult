@@ -1,18 +1,68 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe, ArrowRight } from 'lucide-react';
 import { cn } from '../lib/utils';
+import gsap from 'gsap';
+
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const navLinksRef = useRef<HTMLElement>(null);
+
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const shouldBeScrolled = window.scrollY > 20;
+          
+          if (shouldBeScrolled !== scrolled) {
+            setScrolled(shouldBeScrolled);
+
+            if (containerRef.current && navLinksRef.current) {
+              const tl = gsap.timeline({
+                defaults: { duration: 0.4, ease: 'power2.out' }
+              });
+
+              if (shouldBeScrolled) {
+                
+                tl.to(navRef.current, { paddingLeft: 0, paddingRight: 0 }, 0)
+                  .to(containerRef.current, {
+                    maxWidth: '100%',
+                    borderRadius: '0px',
+                    marginTop: '0px',
+                    paddingLeft: '1.5rem',
+                    paddingRight: '1.5rem',
+                  }, 0)
+                  .to(navLinksRef.current, { opacity: 0, pointerEvents: 'none' }, 0);
+              } else {
+                
+                tl.to(navRef.current, { paddingLeft: '1.5rem', paddingRight: '1.5rem' }, 0)
+                  .to(containerRef.current, {
+                    maxWidth: '80rem',
+                    borderRadius: '9999px',
+                    marginTop: '1rem',
+                    paddingLeft: '1.5rem',
+                    paddingRight: '1.5rem',
+                  }, 0)
+                  .to(navLinksRef.current, { opacity: 1, pointerEvents: 'auto' }, 0);
+              }
+            }
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [scrolled]);
   const menuVariants = {
     closed: {
       opacity: 0,
@@ -38,16 +88,19 @@ export function Navigation() {
     }
   };
   return <>
-      <nav className={cn('fixed top-0 left-0 right-0 z-50 transition-all duration-700', scrolled ? 'px-0' : 'px-6 md:px-12')} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
-        <div className={cn(
-          'mx-auto flex justify-between items-center transition-all duration-700',
-          scrolled 
-            ? 'max-w-full bg-white/95 backdrop-blur-md shadow-lg px-6 md:px-12 py-3 rounded-none mt-0' 
-            : 'max-w-7xl bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg mt-4'
-        )} style={{ transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)' }}>
-          {/* Logo on left */}
+      <nav ref={navRef} className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12">
+        <div 
+          ref={containerRef}
+          className={cn(
+            'mx-auto flex justify-between items-center',
+            scrolled 
+              ? 'max-w-full bg-white/95 backdrop-blur-md shadow-lg px-6 md:px-12 py-3 rounded-none mt-0' 
+              : 'max-w-7xl bg-white/95 backdrop-blur-sm rounded-full px-6 py-3 shadow-lg mt-4'
+          )}
+        >
+          {}
           <a href="#" className="flex items-center gap-2 z-50 relative text-terracotta">
-            {/* Mobile: Footer style logo (all terracotta/current color) */}
+            {}
             <svg aria-hidden="true" className="katapult-logo w-32 h-auto md:hidden" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="178" height="79" viewBox="0 0 178 79">
               <defs>
                 <path id="a" d="M0 0L20.567 0 20.567 20.611 0 20.611z"></path>
@@ -64,7 +117,7 @@ export function Navigation() {
               </g>
             </svg>
 
-            {/* Desktop: Original logo with terracotta circles */}
+            {}
             <svg aria-hidden="true" className="katapult-logo w-32 h-auto hidden md:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 178 79" style={{fill: 'currentColor'}}>
               <path className="fill-terracotta" d="M10.3,57.8C4.6,57.8,0,62.4,0,68.1c0,5.7,4.6,10.3,10.3,10.3c5.7,0,10.3-4.6,10.3-10.3
                 C20.6,62.4,16,57.8,10.3,57.8z M10.3,75c-3.8,0-6.8-3.1-6.8-6.9c0-3.8,3.1-6.9,6.8-6.9c3.8,0,6.8,3.1,6.8,6.9
@@ -117,20 +170,23 @@ export function Navigation() {
             </svg>
           </a>
 
-          {/* Right side: Nav Links + Hamburger */}
+          {}
           <div className="flex items-center gap-8">
-            {/* Desktop Navigation Links - Visible on initial load, hide on scroll */}
-            <nav className={cn(
-              'hidden md:flex items-center gap-8 transition-all duration-700',
-              scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
-            )}>
+            {}
+            <nav 
+              ref={navLinksRef}
+              className={cn(
+                'hidden md:flex items-center gap-8',
+                scrolled ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              )}
+            >
               {['About', 'Portfolio', 'Team', 'Contact'].map(link => <a key={link} href={`#${link.toLowerCase()}`} className="text-terracotta hover:text-baobab transition-colors font-medium relative group">
                   {link}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-baobab transition-all group-hover:w-full" />
                 </a>)}
             </nav>
 
-            {/* Hamburger Menu Button - Always visible */}
+            {}
             <button onClick={() => setIsOpen(!isOpen)} className="z-50 relative p-2 hover:bg-terracotta/10 rounded-lg transition-colors" aria-label="Toggle menu">
               {isOpen ? <X className="w-6 h-6 text-terracotta" /> : <Menu className="w-6 h-6 text-terracotta" />}
             </button>
@@ -138,19 +194,19 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Full Screen Menu Overlay */}
+      {}
       <AnimatePresence>
         {isOpen && <motion.div initial="closed" animate="open" exit="closed" variants={menuVariants} className="fixed inset-0 z-[60] flex flex-col md:flex-row bg-harmattan">
-            {/* Close Button */}
+            {}
             <button onClick={() => setIsOpen(false)} className="absolute top-6 right-6 z-50 p-2 hover:bg-baobab/5 rounded-full transition-colors">
               <X className="w-8 h-8 text-baobab" />
             </button>
 
-            {/* Left Content Area (70%) */}
+            {}
             <div className="w-full md:w-[70%] p-6 md:p-16 flex items-center justify-center">
               <div className="max-w-4xl mx-auto w-full">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                  {/* Column 1 */}
+                  {}
                   <div className="space-y-4">
                     <h3 className="text-terracotta font-display font-bold text-base md:text-lg">
                       For Startups
@@ -166,7 +222,7 @@ export function Navigation() {
                     </ul>
                   </div>
 
-                  {/* Column 2 */}
+                  {}
                   <div className="space-y-4">
                     <h3 className="text-terracotta font-display font-bold text-base md:text-lg">
                       For Investors
@@ -182,7 +238,7 @@ export function Navigation() {
                     </ul>
                   </div>
 
-                  {/* Column 3 */}
+                  {}
                   <div className="space-y-4">
                     <h3 className="text-terracotta font-display font-bold text-base md:text-lg">
                       On the radar
@@ -216,9 +272,9 @@ export function Navigation() {
               </div>
             </div>
 
-            {/* Right Accent Area (30%) */}
+            {}
             <div className="hidden md:flex w-[30%] bg-terracotta text-harmattan p-16 flex-col justify-center relative overflow-hidden">
-              {/* Decorative Circles */}
+              {}
               <div className="absolute -right-20 -top-20 w-96 h-96 rounded-full border border-white/20" />
               <div className="absolute -right-10 -top-10 w-64 h-64 rounded-full border border-white/20" />
 

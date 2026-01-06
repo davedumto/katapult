@@ -1,24 +1,98 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+import gsap from 'gsap';
 
 const heroImages = [
-  '/african-climate-2.jpg',
-  '/african-climate-3.jpg',
-  '/african-climate-4.jpg',
-  '/african-climate-5.jpg',
-  '/african-climate-6.jpg',
-  '/african-landscape-1.jpg',
-  '/african-landscape-2.jpg'
+  '/african-climate-2.webp',
+  '/african-climate-3.webp',
+  '/african-climate-4.webp',
+  '/african-climate-5.webp',
+  '/african-climate-6.webp',
+  '/african-landscape-1.webp',
+  '/african-landscape-2.webp'
 ];
 
 export function Hero() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMounted, setIsMounted] = useState(false);
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const kataRefs = useRef<(HTMLHeadingElement | null)[]>([]);
+  const kataContainerRef = useRef<HTMLDivElement>(null);
+  const pultRef = useRef<HTMLHeadingElement>(null);
 
-  // Auto-scroll functionality
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    heroImages.forEach((imageSrc) => {
+      const img = new window.Image();
+      img.src = imageSrc;
+    });
+  }, []);
+
+  useEffect(() => {
+    
+    imageRefs.current.forEach((ref, index) => {
+      if (ref) {
+        gsap.to(ref, {
+          opacity: index === currentImageIndex ? 1 : 0,
+          duration: 1.2,
+          ease: 'power2.inOut',
+        });
+      }
+    });
+
+    kataRefs.current.forEach((ref, index) => {
+      if (ref) {
+        gsap.to(ref, {
+          opacity: index === currentImageIndex ? 1 : 0,
+          duration: 1.2,
+          ease: 'power2.inOut',
+        });
+      }
+    });
+  }, [currentImageIndex]);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollProgress = Math.min(window.scrollY / 300, 1); 
+          const translateAmount = scrollProgress * 30; 
+
+          if (kataContainerRef.current) {
+            gsap.to(kataContainerRef.current, {
+              x: -translateAmount,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+          }
+
+          if (pultRef.current) {
+            gsap.to(pultRef.current, {
+              x: translateAmount,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+          }
+
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     if (!isAutoPlaying) return;
 
@@ -26,7 +100,7 @@ export function Hero() {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); // Change image every 5 seconds
+    }, 5000); 
 
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
@@ -34,30 +108,32 @@ export function Hero() {
   const goToPrevious = () => {
     setIsAutoPlaying(false);
     setCurrentImageIndex(currentImageIndex === 0 ? heroImages.length - 1 : currentImageIndex - 1);
-    // Resume auto-play after 10 seconds
+    
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const goToNext = () => {
     setIsAutoPlaying(false);
     setCurrentImageIndex(currentImageIndex === heroImages.length - 1 ? 0 : currentImageIndex + 1);
-    // Resume auto-play after 10 seconds
+    
     setTimeout(() => setIsAutoPlaying(true), 10000);
   };
 
   const currentImage = heroImages[currentImageIndex];
   return <section className="relative min-h-screen w-full overflow-hidden flex items-center">
-      {/* Full-width Background Image with Carousel */}
-      <div className="absolute inset-0 z-0">
+      {}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isMounted ? 1 : 0 }}
+        transition={{ duration: 1.5 }}
+        className="absolute inset-0 z-0"
+      >
         {heroImages.map((image, index) => (
-          <motion.div
+          <div
             key={index}
-            initial={false}
-            animate={{ 
-              opacity: index === currentImageIndex ? 1 : 0 
-            }}
-            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            ref={(el) => {imageRefs.current[index] = el}}
             className="absolute inset-0"
+            style={{ opacity: index === 0 ? 1 : 0 }}
           >
             <Image 
               src={image}
@@ -65,30 +141,32 @@ export function Hero() {
               fill
               className="object-cover"
               priority={index === 0}
-              quality={100}
+              loading={index === 0 ? 'eager' : 'lazy'}
+              quality={60}
+              sizes="100vw"
             />
-          </motion.div>
+          </div>
         ))}
-        {/* Mobile overlay for better text contrast */}
+        {}
         <div className="absolute inset-0 bg-black/30 md:bg-black/10 z-10" />
-      </div>
+      </motion.div>
 
-      {/* Content Container */}
+      {}
       <div className="relative z-10 w-full h-screen flex">
-        {/* Desktop: Left Side - Glassmorphism Panel */}
+        {}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="hidden md:flex w-[46.7%] h-full backdrop-blur-2xl bg-white/10 border-r border-white/20 flex-col justify-between px-8 md:px-12 py-12"
+          className="hidden md:flex w-1/2 h-full backdrop-blur-2xl bg-white/10 border-r border-white/20 flex-col justify-between px-8 md:px-12 py-12"
         >
-          {/* Spacer for top */}
+          {}
           <div></div>
         </motion.div>
 
-        {/* Desktop: Right Side - Photo Background */}
-        <div className="hidden md:flex w-[54%] h-full relative">
-          {/* Navigation Arrows - Bottom Right */}
+        {}
+        <div className="hidden md:flex w-1/2 h-full relative">
+          {}
           <div className="absolute bottom-8 right-8 flex items-center gap-3">
             <button 
               onClick={goToPrevious}
@@ -104,7 +182,7 @@ export function Hero() {
             </button>
           </div>
 
-          {/* Image Indicators */}
+          {}
           <div className="absolute bottom-8 left-8 flex items-center gap-2">
             {heroImages.map((_, index) => (
               <button
@@ -124,7 +202,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Mobile: Full Width Content */}
+        {}
         <div className="md:hidden w-full h-full flex items-center justify-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -132,17 +210,17 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.3 }}
             className="text-center"
           >
-            {/* KATAPULT - Solid white on mobile */}
+            {}
             <h1 className="text-6xl sm:text-7xl font-display font-black leading-none tracking-tighter mb-3 text-white drop-shadow-2xl">
               KATAPULT
             </h1>
 
-            {/* AFRICA */}
+            {}
             <h2 className="text-5xl sm:text-6xl font-display font-black leading-none tracking-tighter mb-6 text-terracotta drop-shadow-lg">
               AFRICA
             </h2>
 
-            {/* Subtitle */}
+            {}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -154,42 +232,57 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Desktop: Text Spanning Both Sides */}
+        {}
         <div className="hidden md:flex absolute inset-0 items-center pointer-events-none">
           <div className="w-full flex items-baseline">
-            {/* Left Side - KATA (in glassmorphism area) */}
-            <div className="w-[46%] flex justify-end">
+            {}
+            <div className="w-1/2 flex justify-end pr-2">
               <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.4 }}
+                ref={kataContainerRef}
+                initial={{ opacity: 0, x: -100 }}
+                animate={{ opacity: isMounted ? 1 : 0, x: isMounted ? 0 : -100 }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                 className="flex flex-col items-end"
               >
-                {/* KATA with transparent text - shows actual Hero background through */}
-                <h1 
-                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black leading-none tracking-tighter"
-                  style={{
-                    backgroundImage: `url("${currentImage}")`,
-                    backgroundAttachment: 'fixed',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center top',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    color: 'transparent',
-                  }}
-                >
-                  KATA
-                </h1>
+                {}
+                <div className="relative">
+                  {heroImages.map((image, index) => (
+                    <h1 
+                      key={index}
+                      ref={(el) => {kataRefs.current[index] = el}}
+                      className={`text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] pr-[0.03em] font-display font-black leading-none tracking-tighter ${
+                        index === 0 ? 'relative' : 'absolute inset-0'
+                      }`}
+                      style={{
+                        backgroundImage: `url("${image}")`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        WebkitBackgroundClip: 'text',
+                        backgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        color: 'transparent',
+                        opacity: index === 0 ? 1 : 0,
+                      }}
+                    >
+                      KATA
+                    </h1>
+                  ))}
+                  <h1 
+                    className="absolute inset-0 text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black leading-none tracking-tighter text-black pointer-events-none"
+                    style={{ opacity: 0.8 }}
+                  >
+                    KATA
+                  </h1>
+                </div>
 
-                {/* AFRICA below */}
+                {}
                 <h2 
                   className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-black leading-none tracking-tighter mt-3 ml-3 self-start text-terracotta"
                 >
                   AFRICA
                 </h2>
 
-                {/* Subtitle below AFRICA */}
+                {}
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -201,12 +294,13 @@ export function Hero() {
               </motion.div>
             </div>
 
-            {/* Right Side - PULT (on background) */}
-            <div className="w-[54%] flex justify-start">
+            {}
+            <div className="w-1/2 flex justify-start  -ml-[0.35em]">
               <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1, delay: 0.5 }}
+                ref={pultRef}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: isMounted ? 1 : 0, x: isMounted ? 0 : 100 }}
+                transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
                 className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black text-white leading-none tracking-tighter drop-shadow-2xl"
               >
                 PULT
