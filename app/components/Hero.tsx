@@ -5,13 +5,13 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 
 const heroImages = [
-  '/African Climate Photo (2).jpg',
-  '/African Climate Photo (3).jpg',
-  '/African Climate Photo (4).jpg',
-  '/African Climate Photo (5).jpg',
-  '/African Climate Photo (6) 2.jpg',
-  '/African Landscape Photo (1).jpg',
-  '/African Landscape Photo 2.jpg'
+  '/african-climate-2.jpg',
+  '/african-climate-3.jpg',
+  '/african-climate-4.jpg',
+  '/african-climate-5.jpg',
+  '/african-climate-6.jpg',
+  '/african-landscape-1.jpg',
+  '/african-landscape-2.jpg'
 ];
 
 export function Hero() {
@@ -169,7 +169,7 @@ export function Hero() {
                 <h1 
                   className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black leading-none tracking-tighter"
                   style={{
-                    backgroundImage: `url("${currentImage}")`,
+                    backgroundImage: 'url("/african-climate-2.jpg")',
                     backgroundAttachment: 'fixed',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center top',
