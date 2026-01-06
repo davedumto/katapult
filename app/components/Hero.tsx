@@ -1,212 +1,219 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
+
+const heroImages = [
+  '/African Climate Photo (2).jpg',
+  '/African Climate Photo (3).jpg',
+  '/African Climate Photo (4).jpg',
+  '/African Climate Photo (5).jpg',
+  '/African Climate Photo (6) 2.jpg',
+  '/African Landscape Photo (1).jpg',
+  '/African Landscape Photo 2.jpg'
+];
+
 export function Hero() {
-  return <section className="relative min-h-screen w-full overflow-visible flex items-center bg-gradient-to-br from-harmattan via-[#F5EFE6] to-[#E8DCCF]">
-      {/* Gradient Blur Transition - Spans from Hero bottom into Vision top */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1em] bg-gradient-to-b from-[#E8DCCF]/0 via-harmattan/60 to-harmattan pointer-events-none z-30" 
-           style={{ backdropFilter: 'blur(12px)' }} />
-      
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Concentric Circles - Right Side */}
-        <div className="absolute top-1/2 right-[-10%] md:right-[-5%] -translate-y-1/2 w-[80vh] h-[80vh] md:w-[120vh] md:h-[120vh]">
-          {/* Outer Circle with Orbital Icons */}
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Auto-scroll functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const goToPrevious = () => {
+    setIsAutoPlaying(false);
+    setCurrentImageIndex(currentImageIndex === 0 ? heroImages.length - 1 : currentImageIndex - 1);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const goToNext = () => {
+    setIsAutoPlaying(false);
+    setCurrentImageIndex(currentImageIndex === heroImages.length - 1 ? 0 : currentImageIndex + 1);
+    // Resume auto-play after 10 seconds
+    setTimeout(() => setIsAutoPlaying(true), 10000);
+  };
+
+  const currentImage = heroImages[currentImageIndex];
+  return <section className="relative min-h-screen w-full overflow-hidden flex items-center">
+      {/* Full-width Background Image with Carousel */}
+      <div className="absolute inset-0 z-0">
+        {heroImages.map((image, index) => (
           <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0 rounded-full border border-terracotta/10 border-dashed"
+            key={index}
+            initial={false}
+            animate={{ 
+              opacity: index === currentImageIndex ? 1 : 0 
+            }}
+            transition={{ duration: 0.8, ease: 'easeInOut' }}
+            className="absolute inset-0"
           >
-            {/* Palm Tree Icon - Outer Circle Top */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <motion.div animate={{ rotate: -360 }} transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/Palmtree.png" alt="" width={48} height={48} className="opacity-70" />
-              </motion.div>
-            </div>
-            {/* Oak Tree Icon - Outer Circle Right */}
-            <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2">
-              <motion.div animate={{ rotate: -360 }} transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/Oaktree.png" alt="" width={48} height={48} className="opacity-70" />
-              </motion.div>
-            </div>
-            {/* Coconut Tree Icon - Outer Circle Bottom */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2">
-              <motion.div animate={{ rotate: -360 }} transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/cocnuttree.png" alt="" width={48} height={48} className="opacity-70" />
-              </motion.div>
-            </div>
+            <Image 
+              src={image}
+              alt="African Climate Landscape"
+              fill
+              className="object-cover"
+              priority={index === 0}
+              quality={100}
+            />
           </motion.div>
-
-          {/* Middle Circle with Orbital Icons */}
-          <motion.div
-            animate={{ rotate: -360 }}
-            transition={{ duration: 180, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-[10%] rounded-full border border-baobab/5"
-          >
-            {/* Coconut Tree Icon - Middle Circle Top Right */}
-            <div className="absolute top-[15%] right-[15%] translate-x-1/2 -translate-y-1/2">
-              <motion.div animate={{ rotate: 360 }} transition={{ duration: 180, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/cocnuttree.png" alt="" width={44} height={44} className="opacity-75" />
-              </motion.div>
-            </div>
-            {/* Palm Tree Icon - Middle Circle Bottom Left */}
-            <div className="absolute bottom-[15%] left-[15%] -translate-x-1/2 translate-y-1/2">
-              <motion.div animate={{ rotate: 360 }} transition={{ duration: 180, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/Palmtree.png" alt="" width={44} height={44} className="opacity-75" />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Inner Circle with Orbital Icons */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 150, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-[20%] rounded-full border border-sahel/10 border-dotted"
-          >
-            {/* Oak Tree Icon - Inner Circle Top */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
-              <motion.div animate={{ rotate: -360 }} transition={{ duration: 150, repeat: Infinity, ease: 'linear' }}>
-                <Image src="/Oaktree.png" alt="" width={40} height={40} className="opacity-80" />
-              </motion.div>
-            </div>
-          </motion.div>
-
-          <div className="absolute inset-[30%] rounded-full bg-gradient-to-br from-terracotta/5 to-transparent blur-3xl" />
-        </div>
-
-        {/* Floating Particles */}
-        {[
-          { width: 15, height: 18, left: 25, top: 30 },
-          { width: 22, height: 12, left: 70, top: 60 },
-          { width: 12, height: 20, left: 15, top: 80 },
-          { width: 28, height: 16, left: 85, top: 20 },
-          { width: 18, height: 14, left: 50, top: 45 }
-        ].map((particle, i) => <motion.div key={i} className="absolute rounded-full bg-terracotta/20" style={{
-        width: particle.width,
-        height: particle.height,
-        left: `${particle.left}%`,
-        top: `${particle.top}%`
-      }} animate={{
-        y: [0, -40, 0],
-        x: [0, 20, 0],
-        opacity: [0.1, 0.3, 0.1]
-      }} transition={{
-        duration: 10 + (i * 2),
-        repeat: Infinity,
-        ease: 'easeInOut',
-        delay: i * 1
-      }} />)}
+        ))}
+        {/* Mobile overlay for better text contrast */}
+        <div className="absolute inset-0 bg-black/30 md:bg-black/10 z-10" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-        {/* Text Content */}
-        <div className="lg:col-span-7 space-y-8 pt-20 lg:pt-0">
-          <motion.h1 initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8
-        }} className="space-y-6">
-            <div className="inline-block">
-              <motion.h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight">
-                <span className="text-terracotta">Katapult</span>
-              </motion.h1>
-              <motion.h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight">
-                <span className="text-terracotta">Africa</span>
-              </motion.h1>
-            </div>
-          </motion.h1>
-          <motion.p initial={{
-          opacity: 0,
-          y: 30
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.8,
-          delay: 0.2,
-          ease: 'easeOut'
-        }} className="text-lg md:text-xl text-baobab/80 max-w-xl leading-relaxed">
-            We believe that sustainable agriculture and climate-smart solutions
-            will drive economic development across Africa. That is why we
-            accelerate startups in the space.
-          </motion.p>
-        </div>
-
-        {/* Floating Card */}
-        <div className="lg:col-span-5 relative hidden md:block">
-          <motion.div initial={{
-          opacity: 0,
-          y: 40
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          delay: 0.8,
-          duration: 0.8
-        }} className="mt-8">
-            <div className="absolute inset-0 bg-terracotta/5 blur-2xl rounded-full transform translate-y-10" />
-            <div className="relative bg-white/40 backdrop-blur-xl border border-white/50 p-8 md:p-10 rounded-[2rem] shadow-xl max-w-lg ml-auto transform rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative">
-                  <div className="relative w-20 h-20 rounded-full overflow-hidden flex-shrink-0 border-2 border-white shadow-lg">
-                    <Image 
-                      src="/Beniamino Bruno.jpeg" 
-                      alt="Beniamino Bruno" 
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
-                    />
-                  </div>
-                  <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-terracotta rounded-full border-2 border-white flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 bg-white rounded-full" />
-                  </div>
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-baobab text-lg">
-                    Beniamino Bruno
-                  </h3>
-                  <p className="text-sm text-baobab/60 uppercase tracking-wider font-medium">
-                    Venture Partner
-                  </p>
-                </div>
-              </div>
-              <p className="text-base text-baobab/80 italic leading-relaxed">
-                &quot;Africa is not just the future of climate tech, it is the
-                present. The innovation happening here is rewriting the global
-                playbook.&quot;
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-
-
-      {/* Scroll Indicator */}
-      <motion.div initial={{
-      opacity: 0
-    }} animate={{
-      opacity: 1
-    }} transition={{
-      delay: 1,
-      duration: 1
-    }} className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-baobab/40 z-20">
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <motion.div animate={{
-        y: [0, 8, 0]
-      }} transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: 'easeInOut'
-      }}>
-          <ChevronDown className="w-5 h-5" />
+      {/* Content Container */}
+      <div className="relative z-10 w-full h-screen flex">
+        {/* Desktop: Left Side - Glassmorphism Panel */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: 'easeOut' }}
+          className="hidden md:flex w-[46.7%] h-full backdrop-blur-2xl bg-white/10 border-r border-white/20 flex-col justify-between px-8 md:px-12 py-12"
+        >
+          {/* Spacer for top */}
+          <div></div>
         </motion.div>
-      </motion.div>
+
+        {/* Desktop: Right Side - Photo Background */}
+        <div className="hidden md:flex w-[54%] h-full relative">
+          {/* Navigation Arrows - Bottom Right */}
+          <div className="absolute bottom-8 right-8 flex items-center gap-3">
+            <button 
+              onClick={goToPrevious}
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all transform hover:scale-110 active:scale-95"
+            >
+              <ChevronLeft className="w-5 h-5 text-white" />
+            </button>
+            <button 
+              onClick={goToNext}
+              className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all transform hover:scale-110 active:scale-95"
+            >
+              <ChevronRight className="w-5 h-5 text-white" />
+            </button>
+          </div>
+
+          {/* Image Indicators */}
+          <div className="absolute bottom-8 left-8 flex items-center gap-2">
+            {heroImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => {
+                  setIsAutoPlaying(false);
+                  setCurrentImageIndex(index);
+                  setTimeout(() => setIsAutoPlaying(true), 10000);
+                }}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  index === currentImageIndex 
+                    ? 'bg-white w-8' 
+                    : 'bg-white/40 hover:bg-white/70'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Mobile: Full Width Content */}
+        <div className="md:hidden w-full h-full flex items-center justify-center px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3 }}
+            className="text-center"
+          >
+            {/* KATAPULT - Solid white on mobile */}
+            <h1 className="text-6xl sm:text-7xl font-display font-black leading-none tracking-tighter mb-3 text-white drop-shadow-2xl">
+              KATAPULT
+            </h1>
+
+            {/* AFRICA */}
+            <h2 className="text-5xl sm:text-6xl font-display font-black leading-none tracking-tighter mb-6 text-terracotta drop-shadow-lg">
+              AFRICA
+            </h2>
+
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-white/90 text-base leading-relaxed max-w-lg mx-auto drop-shadow-md"
+            >
+              We believe that sustainable agriculture and climate-smart solutions will drive economic development across Africa. That is why we accelerate startups in the space.
+            </motion.p>
+          </motion.div>
+        </div>
+
+        {/* Desktop: Text Spanning Both Sides */}
+        <div className="hidden md:flex absolute inset-0 items-center pointer-events-none">
+          <div className="w-full flex items-baseline">
+            {/* Left Side - KATA (in glassmorphism area) */}
+            <div className="w-[46%] flex justify-end">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.4 }}
+                className="flex flex-col items-end"
+              >
+                {/* KATA with transparent text - shows actual Hero background through */}
+                <h1 
+                  className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black leading-none tracking-tighter"
+                  style={{
+                    backgroundImage: `url("${currentImage}")`,
+                    backgroundAttachment: 'fixed',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center top',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: 'transparent',
+                  }}
+                >
+                  KATA
+                </h1>
+
+                {/* AFRICA below */}
+                <h2 
+                  className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-black leading-none tracking-tighter mt-3 ml-3 self-start text-terracotta"
+                >
+                  AFRICA
+                </h2>
+
+                {/* Subtitle below AFRICA */}
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="text-white/80 text-sm md:text-lg leading-relaxed mt-6 max-w-md self-start p-2"
+                >
+                  We believe that sustainable agriculture and climate-smart solutions will drive economic development across Africa. That is why we accelerate startups in the space.
+                </motion.p>
+              </motion.div>
+            </div>
+
+            {/* Right Side - PULT (on background) */}
+            <div className="w-[54%] flex justify-start">
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-display font-black text-white leading-none tracking-tighter drop-shadow-2xl"
+              >
+                PULT
+              </motion.h1>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>;
 }
