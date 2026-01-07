@@ -148,7 +148,7 @@ export function Hero() {
           </div>
         ))}
         {}
-        <div className="absolute inset-0 bg-black/30 md:bg-black/10 z-10" />
+        <div className="absolute inset-0 bg-black/30 lg:bg-black/10 z-10" />
       </motion.div>
 
       {}
@@ -158,14 +158,14 @@ export function Hero() {
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
-          className="hidden md:flex w-1/2 h-full backdrop-blur-2xl bg-white/10 border-r border-white/20 flex-col justify-between px-8 md:px-12 py-12"
+          className="hidden lg:flex w-1/2 h-full backdrop-blur-2xl bg-white/10 border-r border-white/20 flex-col justify-between px-8 lg:px-12 py-12"
         >
           {}
           <div></div>
         </motion.div>
 
         {}
-        <div className="hidden md:flex w-1/2 h-full relative">
+        <div className="hidden lg:flex w-1/2 h-full relative">
           {}
           <div className="absolute bottom-8 right-8 flex items-center gap-3">
             <button 
@@ -203,7 +203,7 @@ export function Hero() {
         </div>
 
         {}
-        <div className="md:hidden w-full h-full flex items-center justify-center px-6">
+        <div className="lg:hidden w-full h-full flex items-center justify-center px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -233,7 +233,7 @@ export function Hero() {
         </div>
 
         {}
-        <div className="hidden md:flex absolute inset-0 items-center pointer-events-none">
+        <div className="hidden lg:flex absolute inset-0 items-center pointer-events-none">
           <div className="w-full flex items-baseline">
             {}
             <div className="w-1/2 flex justify-end pr-2">
@@ -287,7 +287,7 @@ export function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.8 }}
-                  className="text-white/80 text-sm md:text-lg leading-relaxed mt-6 max-w-md self-start p-2"
+                  className="text-white/80 text-sm md:text-lg leading-relaxed mt-6 max-w-md self-start"
                 >
                   We believe that sustainable agriculture and climate-smart solutions will drive economic development across Africa. That is why we accelerate startups in the space.
                 </motion.p>

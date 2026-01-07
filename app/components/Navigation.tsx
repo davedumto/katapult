@@ -101,7 +101,7 @@ export function Navigation() {
           {}
           <a href="#" className="flex items-center gap-2 z-50 relative text-terracotta">
             {}
-            <svg aria-hidden="true" className="katapult-logo w-32 h-auto md:hidden" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="178" height="79" viewBox="0 0 178 79">
+            <svg aria-hidden="true" className="katapult-logo w-24 h-auto md:hidden" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="178" height="79" viewBox="0 0 178 79">
               <defs>
                 <path id="a" d="M0 0L20.567 0 20.567 20.611 0 20.611z"></path>
                 <path id="c" d="M0 0L20.567 0 20.567 20.613 0 20.613z"></path>
