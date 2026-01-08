@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, X, Mail, Linkedin } from 'lucide-react';
+import Image from 'next/image';
 
 const team = [{
   name: 'Beniamino Bruno',
@@ -49,7 +50,7 @@ const team = [{
 export function Team() {
   const [selectedMember, setSelectedMember] = useState<number | null>(null);
 
-  return <section id="team" className="py-32 bg-white">
+  return <section id="team" className="py-32 bg-gradient-to-br from-stone-100 via-amber-50 to-orange-50">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-20">
           <motion.h2 initial={{
@@ -71,7 +72,7 @@ export function Team() {
           once: true
         }} transition={{
           delay: 0.2
-        }} className="h-1 w-24 bg-terracotta origin-left" />
+          }} className="h-1 w-24 bg-terracotta origin-left" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">

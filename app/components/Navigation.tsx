@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Globe, ArrowRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 import gsap from 'gsap';
+import Image from 'next/image';
 
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -274,7 +275,17 @@ export function Navigation() {
 
             {}
             <div className="hidden md:flex w-[30%] bg-terracotta text-harmattan p-16 flex-col justify-center relative overflow-hidden">
-              {}
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <Image
+                  src="/african-farmers-bg.jpg"
+                  alt="African Farmers Background"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-terracotta/80"></div>
+              </div>
+              {/* Decorative circles */}
               <div className="absolute -right-20 -top-20 w-96 h-96 rounded-full border border-white/20" />
               <div className="absolute -right-10 -top-10 w-64 h-64 rounded-full border border-white/20" />
 

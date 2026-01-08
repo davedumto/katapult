@@ -1,211 +1,150 @@
 'use client';
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
-import DotGrid from './DotGrid';
 
-const companies = [{
-  name: 'Afrikamart',
-  desc: 'Building the best B2B marketplace for smallholder farmers and food businesses.'
-}, {
-  name: 'Aquarech',
-  desc: 'Transforming fish farmer livelihoods across Kenya through aquaculture innovations.'
-}, {
-  name: 'Complete Farmer',
-  desc: 'Connects farmers to global food buyers and assists them in gaining a competitive edge.'
-}, {
-  name: 'Crop2Cash',
-  desc: 'Digitalizes the value chain of food crops for agro-processors and farmers.'
-}, {
-  name: 'Elucid',
-  desc: "Advance human rights in global supply chains by improving producers' health and livelihoods."
-}, {
-  name: 'Figorr',
-  desc: 'Helps businesses reduce loss of perishables through real-time asset monitoring.'
-}, {
-  name: 'GrowAgric',
-  desc: 'End-to-end solution providing small scale farmers with training and financing.'
-}, {
-  name: 'HerVest',
-  desc: 'Inclusive fintech for women providing access to savings and impact investments.'
-}, {
-  name: 'Legendary Foods',
-  desc: 'Delivering nutrition of meat at price & sustainability of plants using insect agriculture.'
-}, {
-  name: 'MooMe',
-  desc: 'Innovative software and hardware to help monitor dairy farming production.'
-}, {
-  name: 'OKO Finance',
-  desc: 'Leverages data to provide effective, affordable insurance to farmers.'
-}, {
-  name: 'Rural Farmers Hub',
-  desc: 'Uses big data to assess crop and soil health for farming insights.'
-}, {
-  name: 'Sand To Green',
-  desc: 'Cultivating desert into arable land managed by regenerative agriculture.'
-}, {
-  name: 'Sensegrass',
-  desc: '360 farming solutions based on cutting edge technology including Nano-Satellite Mapping.'
-}, {
-  name: 'Spark',
-  desc: 'Social finance app that makes transactions with your contacts better.'
-}, {
-  name: 'Vetsark',
-  desc: 'Helps farmers and agribusinesses digitalise their data and get bank financing.'
-}];
+const companies = [
+  {
+    name: 'Afrikamart',
+    desc: 'Building the best B2B marketplace for smallholder farmers and food businesses.',
+    category: 'Marketplace',
+    logo: '/1.jpg'
+  },
+  {
+    name: 'Aquarech',
+    desc: 'Transforming fish farmer livelihoods across Kenya through aquaculture innovations.',
+    category: 'Aquaculture',
+    logo: '/2.jpg'
+  },
+  {
+    name: 'Complete Farmer',
+    desc: 'Connects farmers to global food buyers and assists them in gaining a competitive edge.',
+    category: 'Supply Chain',
+    logo: '/3.jpg'
+  },
+  {
+    name: 'Crop2Cash',
+    desc: 'Digitalizes the value chain of food crops for agro-processors and farmers.',
+    category: 'Digital Platform',
+    logo: '/4.jpg'
+  },
+  {
+    name: 'Elucid',
+    desc: "Advance human rights in global supply chains by improving producers' health and livelihoods.",
+    category: 'Social Impact',
+    logo: '/5.jpg'
+  },
+  {
+    name: 'Figorr',
+    desc: 'Helps businesses reduce loss of perishables through real-time asset monitoring.',
+    category: 'IoT Solutions',
+    logo: '/6.jpg'
+  },
+  {
+    name: 'GrowAgric',
+    desc: 'End-to-end solution providing small scale farmers with training and financing.',
+    category: 'Fintech',
+    logo: '/7.jpg'
+  },
+  {
+    name: 'HerVest',
+    desc: 'Inclusive fintech for women providing access to savings and impact investments.',
+    category: 'Women Fintech',
+    logo: '/8.jpg'
+  },
+  {
+    name: 'Legendary Foods',
+    desc: 'Delivering nutrition of meat at price & sustainability of plants using insect agriculture.',
+    category: 'Alternative Protein',
+    logo: '/9.jpg'
+  },
+  {
+    name: 'Rural Farmers Hub',
+    desc: 'Uses big data to assess crop and soil health for farming insights.',
+    category: 'Data Analytics',
+    logo: '/10.jpg'
+  },
+  {
+    name: 'Sand To Green',
+    desc: 'Cultivating desert into arable land managed by regenerative agriculture.',
+    category: 'Land Restoration',
+    logo: '/11.jpg'
+  },
+  {
+    name: 'Sensegrass',
+    desc: '360 farming solutions based on cutting edge technology including Nano-Satellite Mapping.',
+    category: 'Satellite Tech',
+    logo: '/12.jpg'
+  }
+];
 
 export function Portfolio() {
-  const ref = useRef(null);
-  const [showAll, setShowAll] = React.useState(false);
-  
-  const isInView = useInView(ref, {
-    once: true,
-    margin: '-10% 0px'
-  });
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 }
-    }
-  };
-
+  const [showAll, setShowAll] = useState(false);
   const displayedCompanies = showAll ? companies : companies.slice(0, 6);
 
   return (
-    <section id="portfolio" className="py-32 bg-harmattan relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
-        {}
-        <div className="text-center mb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="flex items-center justify-center gap-4 mb-4"
-          >
-            <div className="h-[1px] w-12 bg-terracotta/50" />
-            <div className="w-3 h-3 rounded-full border border-terracotta" />
-            <div className="h-[1px] w-12 bg-terracotta/50" />
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-display font-bold text-baobab mb-4"
-          >
-            Africa Portfolio
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-xl text-baobab/60"
-          >
-            Meet our portfolio of highly scalable, highly impactful companies
-          </motion.p>
-        </div>
-
-        {}
+    <section className="relative py-16 md:py-24 lg:py-32 bg-stone-900 overflow-hidden">
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/African Savanna Sunrise Zimbabwe.jpg"
+          alt="African Savanna Sunrise"
+          fill
+          className="object-cover opacity-50"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
+      </div>
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div
-          ref={ref}
-          variants={container}
-          initial="hidden"
-          animate={isInView ? 'show' : 'hidden'}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12 md:mb-16"
         >
-          {displayedCompanies.map((company, idx) => (
+          <h2 className="text-4xl md:text-5xl lg:text-7xl font-black text-white mb-4 md:mb-6">
+            Africa Portfolio
+          </h2>
+          <p className="text-white/80 text-lg md:text-xl">
+            Meet our portfolio of highly scalable, highly impactful companies
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-7xl mx-auto">
+          {displayedCompanies.map((company, index) => (
             <motion.div
-              key={idx}
-              variants={item}
-              whileHover={{ y: -8 }}
-              className="group bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-baobab/5 relative overflow-hidden"
+              key={company.name}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-sm border border-white/20 hover:border-amber-500 transition-all group shadow-xl hover:shadow-2xl"
             >
-              {}
-              <div className="absolute top-0 left-0 w-full h-1 bg-terracotta transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
-
-              <div className="h-12 mb-6 flex items-center">
-                {}
-                <div className="h-full relative w-24">
-                  <Image 
-                    src={`/${idx + 1}${idx === 14 ? '.png' : '.jpg'}`} 
-                    alt={`${company.name} logo`}
-                    width={96}
-                    height={48}
-                    className="object-contain"
-                  />
-                </div>
+              <div className="relative w-full h-24 md:h-32 mb-4 md:mb-6">
+                <Image
+                  src={company.logo}
+                  alt={`${company.name} logo`}
+                  fill
+                  className="object-contain"
+                />
               </div>
-
-              <h3 className="text-xl font-bold text-baobab mb-3 group-hover:text-terracotta transition-colors">
-                {company.name}
-              </h3>
-
-              <p className="text-baobab/70 mb-8 line-clamp-3 text-sm leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-black text-stone-900 mb-3 md:mb-4">{company.name}</h3>
+              <p className="text-stone-600 leading-relaxed mb-4 md:mb-6 text-xs md:text-sm">
                 {company.desc}
               </p>
-
-              <button className="w-full py-3 rounded-xl border border-terracotta/30 text-terracotta font-medium text-sm flex items-center justify-center gap-2 group-hover:bg-terracotta group-hover:text-white transition-all duration-300">
-                Visit Website
-                <ExternalLink className="w-4 h-4" />
+              <button className="text-stone-900 font-semibold text-xs md:text-sm underline group-hover:no-underline group-hover:text-amber-600 transition-all">
+                Visit Website →
               </button>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
 
-        {}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          className="mt-12 flex justify-center"
-        >
+        <div className="text-center mt-8 md:mt-12">
           <button
             onClick={() => setShowAll(!showAll)}
-            className="group px-8 py-4 rounded-full bg-terracotta text-white font-semibold text-base flex items-center gap-3 hover:bg-terracotta/90 hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className="text-white text-sm md:text-base font-semibold underline hover:text-amber-400 hover:no-underline transition-all"
           >
-            {showAll ? (
-              <>
-                See Less
-                <motion.svg
-                  animate={{ rotate: 180 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </motion.svg>
-              </>
-            ) : (
-              <>
-                See More ({companies.length - 6} more)
-                <motion.svg
-                  animate={{ rotate: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </motion.svg>
-              </>
-            )}
+            {showAll ? 'Show Less' : `See More (${companies.length - 6} more)`}
           </button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
